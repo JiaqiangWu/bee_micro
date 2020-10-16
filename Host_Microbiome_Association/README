@@ -1,0 +1,7 @@
+GWAS.R: Genome-wide association analysis
+
+heritability.R: calculating heritabilities
+
+heritability_confidence_interval.R: calculating 95% coefficients of heritabilities
+
+qqplot_multi.R: calculating Q-Q values

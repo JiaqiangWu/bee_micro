@@ -1,0 +1,50 @@
+#This command will create the sample file.
+mothur > make.file(inputdir=., type=fastq, prefix=stability)
+
+#This command will combine our two sets of reads for each sample and then to combine the data from all of the samples.
+mothur > make.contigs(file=stability.files, processors=50)
+
+#This command will tell the general information about the contig assembly for each read.
+mothur > summary.seqs(fasta=stability.trim.contigs.fasta)
+
+#This implementation of the command will remove any sequences with ambiguous bases and anything longer than 300 bp.
+mothur > screen.seqs(fasta=stability.trim.contigs.fasta, group=stability.contigs.groups, maxambig=0, maxlength=300)
+
+#This command will unique sequences.
+mothur > summary.seqs()
+mothur > unique.seqs(fasta=stability.trim.contigs.good.fasta)
+
+#This command will generate a table where the rows are the names of the unique sequences and the columns are the names of the groups. The table is then filled with the number of times each unique sequence shows up in each group.
+mothur > count.seqs(name=stability.trim.contigs.good.names, group=stability.contigs.good.groups)
+mothur > summary.seqs(count=stability.trim.contigs.good.count_table)
+mothur > summary.seqs(fasta=stability.trim.contigs.good.unique.fasta)
+
+#This command will do the alignment.
+mothur > align.seqs(fasta=stability.trim.contigs.good.unique.fasta, reference=Bee_16S_DB_20180614.fasta)
+mothur > summary.seqs(fasta=stability.trim.contigs.good.unique.align)
+mothur > screen.seqs(fasta=stability.trim.contigs.good.unique.align, count=stability.trim.contigs.good.count_table, summary=stability.trim.contigs.good.unique.summary, start=6739, end=18930, maxhomop=8)
+mothur > summary.seqs(fasta=current, count=current)
+
+#This cpmmand will filter the sequences to remove the overhangs at both ends.
+mothur > filter.seqs(fasta=stability.trim.contigs.good.unique.good.align, vertical=T, trump=.)
+mothur > unique.seqs(fasta=stability.trim.contigs.good.unique.good.filter.fasta, count=stability.trim.contigs.good.good.count_table)
+
+#This command will split the sequences by group and then sort them by abundance and go from most abundant to least and identify sequences that are within 2 nt of each other.
+mothur > pre.cluster(fasta=stability.trim.contigs.good.unique.good.filter.unique.fasta, count=stability.trim.contigs.good.unique.good.filter.count_table, diffs=2)
+
+#This command will remove chimeras.
+mothur > chimera.vsearch(fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.fasta, count=stability.trim.contigs.good.unique.good.filter.unique.precluster.count_table, dereplicate=t)
+mothur > remove.seqs(fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.fasta, accnos=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.accnos)
+mothur > summary.seqs(fasta=current, count=current)
+
+#This command will classify sequences.
+mothur > classify.seqs(fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta, count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table, reference=Bee_16S_DB_20180614.fasta, taxonomy=Bee_16S_DB_20180614.nds, cutoff=80)
+mothur > remove.lineage(fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.fasta, count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.count_table, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.Bee_16S_DB_20180614.wang.taxonomy, taxon=Chloroplast-Mitochondria-unknown-Archaea-Eukaryota)
+mothur > cluster.split(fasta=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.fasta, count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table, taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.Bee_16S_DB_20180614.wang.pick.taxonomy, splitmethod=classify, taxlevel=4, cutoff=0.01)
+mothur > remove.rare(list=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.list,count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.count_table,nseqs=2,label=0.01) 
+#This command will count sequences in each OTU from each group.
+mothur > make.shared(list=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.01.pick.list, count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.pick.count_table, label=0.01)
+
+#This command will annotate the taxonomy for each of our OTUs.
+mothur > classify.otu(list=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.pick.opti_mcc.0.01.pick.list,count=stability.trim.contigs.good.unique.good.filter.unique.precluster.denovo.vsearch.pick.pick.pick.count_table,taxonomy=stability.trim.contigs.good.unique.good.filter.unique.precluster.pick.Bee_16S_DB_20180614.wang.pick.taxonomy,label=0.01)
+mothur > quit()

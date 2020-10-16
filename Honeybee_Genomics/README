@@ -1,0 +1,17 @@
+GenomicsDBImport.sh：merging gVCFs into GenimicsDB
+
+GenotypeGVCFs.sh：joint genotyping
+
+HaplotypeCaller.sh：calculating variant calls
+
+mapping.sh：filtering out low-quality reads and mapping
+
+population_variation_summary.sh：filtering SNPs and summarizing the VCF dataset
+
+reference_index.sh：preparing reference and index
+
+hybrid_founding_bees_structure.sh：calculating genetic ancestry of hybrid and founding bees
+
+purebred_honeybee_structure.sh：calculating genetic ancestry of purebred bees
+
+tree.R：called by purebred_honeybee_structure.sh and estimating a neighbor-joining tree.

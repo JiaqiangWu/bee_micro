@@ -1,0 +1,15 @@
+This folder contains GWAS results. Each file make a list of marker name(SNP), chromosome, physical position and P-value of a trait.
+
+Bifido-1.4_GLM_MLM.csv: result of Bifido-1.4 using GLM and MLM
+
+Barto_SDP_GLM.csv: result of Barto-1, Barto-2 and Barto-3 using GLM
+
+Bifido_SDP_GLM.csv: result of Bifido-1.1, Bifido-1.2, Bifido-1.3, Bifido-1.4 and Bifido-2 using GLM
+
+Firm4_SDP_GLM.csv: result of Firm4-1, Firm4-2 using GLM
+
+Firm5_SDP_GLM.csv: result of Firm5-1, Firm5-2, Firm5-3 and Firm5-4 using GLM
+
+Gilli_SDP_GLM.csv: result of Gilli-1, Gilli-2 and Gilli-3 using GLM
+
+Genus_GLM.csv: result of five core bacterial phylotypes and *Bartonella apis* 

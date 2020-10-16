@@ -1,0 +1,3 @@
+metagenome_quantify.sh: quantifying relative abundance of each taxon and analyzing strain-level transmission from metagenomic data
+
+mothur_16S_SOP.txt: quantifying relative abundance of OTUs from 16S rRNA high throughput sequencing data

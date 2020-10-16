@@ -1,0 +1,6 @@
+bacteria_characterization.sh: classifying and annotating bacterial genomes
+
+isolated_bacteria_assembly.sh: assembling bacterial genomes
+
+
+NOTE: Perl scripts are called by isolated_bacteria_assembly.sh to batch samples and the functions are shown in the shell.
